@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import org.apache.log4j.Logger;
 import ru.nikolaev.partlist.model.SearchFilter;
+import ru.nikolaev.partlist.tool.DateHelper;
 
 /**
  * Объект-обёртка для прямого доступа к данным таблицы part
@@ -129,43 +130,42 @@ public class PartDao {
      * @param dateValues упорядоченный список значений для условий
      */
     private void addDateCondition(SearchFilter filter, StringBuilder sql, ArrayList<Date> dateValues) {
-        DateTimeFormatter htmlDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         if (filter.getShippedDateAfter().isPresent() && filter.getShippedDateBefore().isPresent()) {
             this.prefixSqlCondition(sql);
             sql.append("shipped BETWEEN ? AND ?");
-            dateValues.add(Date.valueOf(LocalDate.parse(filter.getShippedDateAfter().get(), htmlDateFormat)));
-            dateValues.add(Date.valueOf(LocalDate.parse(filter.getShippedDateBefore().get(), htmlDateFormat)));
+            dateValues.add(DateHelper.formatDateForSql(filter.getShippedDateAfter().get()));
+            dateValues.add(DateHelper.formatDateForSql(filter.getShippedDateBefore().get()));
         } else {
             if (filter.getShippedDateAfter().isPresent()) {
                 // только левая граница
                 this.prefixSqlCondition(sql);
                 sql.append("shipped >= ?");
-                dateValues.add(Date.valueOf(LocalDate.parse(filter.getShippedDateAfter().get(), htmlDateFormat)));
+                dateValues.add(DateHelper.formatDateForSql(filter.getShippedDateAfter().get()));
             }
             if (filter.getShippedDateBefore().isPresent()) {
                 // только правая граница
                 this.prefixSqlCondition(sql);
                 sql.append("shipped <= ?");
-                dateValues.add(Date.valueOf(LocalDate.parse(filter.getShippedDateBefore().get(), htmlDateFormat)));
+                dateValues.add(DateHelper.formatDateForSql(filter.getShippedDateBefore().get()));
             }
         }
         if (filter.getReceivedDateAfter().isPresent() && filter.getReceivedDateBefore().isPresent()) {
             this.prefixSqlCondition(sql);
             sql.append("received BETWEEN ? AND ?");
-            dateValues.add(Date.valueOf(LocalDate.parse(filter.getReceivedDateAfter().get(), htmlDateFormat)));
-            dateValues.add(Date.valueOf(LocalDate.parse(filter.getReceivedDateBefore().get(), htmlDateFormat)));
+            dateValues.add(DateHelper.formatDateForSql(filter.getReceivedDateAfter().get()));
+            dateValues.add(DateHelper.formatDateForSql(filter.getReceivedDateBefore().get()));
         } else {
             if (filter.getReceivedDateAfter().isPresent()) {
                 // только левая граница
                 this.prefixSqlCondition(sql);
                 sql.append("received >= ?");
-                dateValues.add(Date.valueOf(LocalDate.parse(filter.getReceivedDateAfter().get(), htmlDateFormat)));
+                dateValues.add(DateHelper.formatDateForSql(filter.getReceivedDateAfter().get()));
             }
             if (filter.getReceivedDateBefore().isPresent()) {
                 // только правая граница
                 this.prefixSqlCondition(sql);
                 sql.append("received <= ?");
-                dateValues.add(Date.valueOf(LocalDate.parse(filter.getReceivedDateBefore().get(), htmlDateFormat)));
+                dateValues.add(DateHelper.formatDateForSql(filter.getReceivedDateBefore().get()));
             }
         }
     }
@@ -206,7 +206,7 @@ public class PartDao {
             if (shippedDateSeed != 0 && shippedDateSeed != 5) {
                 shippedDate = new Date(ThreadLocalRandom.current().nextLong(d1.getTime(), d2.getTime()));
             }
-            
+
             Date receivedDate = null;
             int receivedDateSeed = (int) (Math.random() * 10);
             if (receivedDateSeed != 3 && receivedDateSeed != 7) {
@@ -215,9 +215,9 @@ public class PartDao {
 
             insertStatement.setDate(4, shippedDate);
             insertStatement.setDate(5, receivedDate);
-            
-            insertStatement.setInt(6, (int)(Math.random() * 100));
-            
+
+            insertStatement.setInt(6, (int) (Math.random() * 100));
+
             insertStatement.execute();
         }
     }

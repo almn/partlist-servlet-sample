@@ -18,6 +18,8 @@
 
 Также, это можно сделать и в уже развернутом приложении.
 
+В базе всего одна таблица, так что можно теоретически создать ее руками по скриптам из **sample/partlist.sql** 
+
 ## 2. Сборка и деплой
 
 Проект собирается посредством Maven. 
@@ -37,4 +39,8 @@
 
 где localhost - это доменное имя или ip сервиса приложений Tomcat.
 
-![PartList Servlet](../assets/screenshot.png?raw=true)
+![PartList Servlet](../assets/screenshot_0.png?raw=true)
+
+![PartList Servlet](../assets/screenshot_1.png?raw=true)
+
+![PartList Servlet](../assets/screenshot_2.png?raw=true)

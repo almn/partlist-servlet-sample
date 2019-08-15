@@ -1,5 +1,6 @@
 package ru.nikolaev.partlist.tool;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -11,22 +12,21 @@ import java.time.format.DateTimeParseException;
 public class DateHelper {
 
     final static DateTimeFormatter ISO_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssx");
-    final static DateTimeFormatter PRINT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd, yyyy");
-    final static DateTimeFormatter HTML_FORM_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    final static DateTimeFormatter SERVLET_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 
     /**
      * Получение объекта даты из строкового значения
      *
-     * @param inputDate
+     * @param dateString
      * @return объект LocalDate
      */
-    public static LocalDate convertDateFromString(String inputDate) {
-        if (inputDate == null) {
+    public static LocalDate convertDateFromString(String dateString) {
+        if (dateString == null) {
             return null;
         }
 
         try {
-            return LocalDate.parse(inputDate, ISO_DATE_FORMAT);
+            return LocalDate.parse(dateString, ISO_DATE_FORMAT);
         } catch (DateTimeParseException e) {
             return null;
         }
@@ -35,31 +35,48 @@ public class DateHelper {
     /**
      * Получение читаемого формата даты в виде строки
      *
-     * @param inputDate
+     * @param dateString
      * @return строка в формате MMM dd, yyyy
      */
-    public static String formatDate(String inputDate) {
-        if (inputDate == null) {
+    public static String formatDate(String dateString) {
+        if (dateString == null) {
             return "";
         }
 
         try {
-            return LocalDate.parse(inputDate, ISO_DATE_FORMAT).format(PRINT_DATE_FORMAT);
+            return LocalDate.parse(dateString, ISO_DATE_FORMAT).format(SERVLET_DATE_FORMAT);
         } catch (DateTimeParseException e) {
             return "";
         }
     }
 
     /**
+     * Получение даты для SQL-запроса из формата, принятого в сервлете
+     * @param dateString
+     * @return java.sql.Date или null, когда распрасить строку не удалось
+     */
+    public static Date formatDateForSql(String dateString) {
+        if (dateString == null) {
+            return null;
+        }
+
+        try {
+            return Date.valueOf(LocalDate.parse(dateString, SERVLET_DATE_FORMAT));
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+    /**
      * Преобразование пришедшей с формы даты в корректный формат фильтра
      *
-     * @param requestDate
+     * @param requestDateString
      * @return дату, если с формы пришло что-то распарсиваемое, null в противном
      * случае
      */
-    public static String fiterHtmlFormDate(String requestDate) {
+    public static String fiterHtmlFormDate(String requestDateString) {
         try {
-            return requestDate != null ? LocalDate.parse(requestDate, HTML_FORM_DATE_FORMAT).format(HTML_FORM_DATE_FORMAT) : null;
+            return requestDateString != null ? LocalDate.parse(requestDateString, SERVLET_DATE_FORMAT).format(SERVLET_DATE_FORMAT) : null;
         } catch (DateTimeParseException ex) {
             return null;
         }

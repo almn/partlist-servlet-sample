@@ -37,12 +37,12 @@
             <label for="inputShippedAfter">Shipped interval</label>
             <div class="row">
                 <div class="col">
-                    <input type="date" name="shipped_after" class="form-control" 
+                    <input type="text" name="shipped_after" class="form-control" 
                            id="inputShippedAfter"
                            value="${searchFilter.getShippedDateAfter().orElse("")}">
                 </div>
                 <div class="col">
-                    <input type="date" name="shipped_before" class="form-control" 
+                    <input type="text" name="shipped_before" class="form-control" 
                            id="inputShippedBefore" 
                            value="${searchFilter.getShippedDateBefore().orElse("")}">
                 </div>
@@ -52,12 +52,12 @@
             <label for="inputReceivedAfter">Received interval</label>
             <div class="row">
                 <div class="col">
-                    <input type="date" name="received_after" class="form-control" 
+                    <input type="text" name="received_after" class="form-control" 
                            id="inputReceivedAfter" 
                            value="${searchFilter.getReceivedDateAfter().orElse("")}">
                 </div>
                 <div class="col">
-                    <input type="date" name="received_before" class="form-control" 
+                    <input type="text" name="received_before" class="form-control" 
                            id="inputReceivedBefore" 
                            value="${searchFilter.getReceivedDateBefore().orElse("")}">
                 </div>
