@@ -1,0 +1,68 @@
+<%@ page pageEncoding="UTF-8" %>
+<form method="GET" action="${pageContext.request.contextPath}/">
+    <div class="form-row">
+        <div class="form-group col-sm-6">
+            <label for="inputPn">P/N</label>
+            <input type="text" name="part_number" class="form-control" 
+                   id="inputPn" 
+                   placeholder="Part Number" 
+                   value="${searchFilter.getPartNumber().orElse("")}">
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="inputName">Part Name</label>
+            <input type="text" name="part_name" class="form-control" 
+                   id="inputName" 
+                   placeholder="Part Name"
+                   value="${searchFilter.getPartName().orElse("")}">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-6">
+            <label for="inputVendor">Vendor</label>
+            <input type="text" name="vendor" class="form-control" 
+                   id="inputVendor" 
+                   placeholder="Vendor"
+                   value="${searchFilter.getVendor().orElse("")}">
+        </div>
+        <div class="form-group col-sm-3">
+            <label for="inputQuantity">Quantity</label>
+            <input type="number" name="quantity" class="form-control" 
+                   id="inputQuantity" 
+                   placeholder="Quantity"
+                   value="${searchFilter.getQuantity().orElse("")}">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-6">
+            <label for="inputShippedAfter">Shipped interval</label>
+            <div class="row">
+                <div class="col">
+                    <input type="date" name="shipped_after" class="form-control" 
+                           id="inputShippedAfter"
+                           value="${searchFilter.getShippedDateAfter().orElse("")}">
+                </div>
+                <div class="col">
+                    <input type="date" name="shipped_before" class="form-control" 
+                           id="inputShippedBefore" 
+                           value="${searchFilter.getShippedDateBefore().orElse("")}">
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="inputReceivedAfter">Received interval</label>
+            <div class="row">
+                <div class="col">
+                    <input type="date" name="received_after" class="form-control" 
+                           id="inputReceivedAfter" 
+                           value="${searchFilter.getReceivedDateAfter().orElse("")}">
+                </div>
+                <div class="col">
+                    <input type="date" name="received_before" class="form-control" 
+                           id="inputReceivedBefore" 
+                           value="${searchFilter.getReceivedDateBefore().orElse("")}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
