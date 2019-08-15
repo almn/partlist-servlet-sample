@@ -66,6 +66,9 @@ public class PartList extends HttpServlet {
             LOGGER.log(Priority.ERROR, "Database request error", ex);
         }
         request.setAttribute("parts", parts);
+        
+        // for tests
+        response.setHeader("IAmAlive", "Success");
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
         requestDispatcher.forward(request, response);
